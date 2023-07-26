@@ -44,27 +44,36 @@
     // Load data from the CSV file
     d3.csv("winter.csv").then(function (data) {
       // Filter data for 'Country=USA'
-      var dataFiltered = data.filter(function (d) {
+      var dataFilteredUSA = data.filter(function (d) {
         return d.Country === 'USA';
       });
-
-      var dataFilteredCAN = data.filter(function (d) {
-        return d.Country === 'CAN';
+      // use clever trick below might be tougher to adjust other graph if you add a country(interactive comp)
+      //shouldnt matter for reqs as long as addcountry is implemented.
+      var dataFilteredOther = data.filter(function (d) {
+        return d.Country = 'USA';
       });
   
       // Convert data to numeric values
-      dataFiltered.forEach(function (d) {
+      dataFilteredUSA.forEach(function (d) {
         d.Year = +d.Year;
         d.GPCT = +d.GPCT;
+
       });
+
+      //clever trick just do 1-usa gpct
+      dataFilteredOther.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = 1-d.GPCT;
+      });
+      
 
       // Set the scales for x and y axes
       var x = d3.scaleLinear()
-        .domain(d3.extent(dataFiltered, d => d.Year))
+        .domain(d3.extent(dataFilteredUSA, d => d.Year))
         .range([0, width]);
   
       var y = d3.scaleLinear()
-        .domain([0, d3.max(dataFiltered, d => d.GPCT)])
+        .domain([0, d3.max(dataFilteredUSA, d => d.GPCT)])
         .range([height, 0]);
   
       // Create the line generator
@@ -74,7 +83,7 @@
 
       // Append the path for the USA line:THIS WORKED
       svg.append("path")
-      .datum(dataFiltered)
+      .datum(dataFilteredUSA)
       .attr("fill","none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
@@ -84,7 +93,7 @@
         )
         // Append the path for the RUS line
       svg.append("path")
-      .datum(dataFilteredCAN)
+      .datum(dataFilteredOther)
       .attr("fill","none")
       .attr("stroke", "red")
       .attr("stroke-width", 4)
