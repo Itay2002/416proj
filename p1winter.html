@@ -64,13 +64,17 @@
         d.GPCT = +d.GPCT;
       });
 
+      // Get the minimum and maximum values of 'Year' for the filtered data
+      var xMin = d3.min([...dataFilteredUSA, ...dataFilteredRUS], d => d.Year);
+      var xMax = d3.max([...dataFilteredUSA, ...dataFilteredRUS], d => d.Year);
+
       // Set the scales for x and y axes
       var x = d3.scaleLinear()
-        .domain(d3.extent(dataFilteredUSA, d => d.Year))
+        .domain([xMin, xMax]) // Set the x-axis domain to the minimum and maximum values
         .range([0, width]);
   
       var y = d3.scaleLinear()
-        .domain([0, d3.max(dataFilteredUSA, d => d.GPCT)])
+        .domain([0, d3.max([...dataFilteredUSA, ...dataFilteredRUS], d => d.GPCT)]) // Use the maximum value from both datasets
         .range([height, 0]);
   
       // Create the line generators
