@@ -19,6 +19,7 @@
       left: 0;
     }
   </style>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
   <header>
@@ -26,5 +27,84 @@
   </header>
 
   <!-- Your D3 line chart and CSV file code can be added here -->
+  <script>
+    // Set the dimensions and margins for the chart
+    var margin = { top: 50, right: 50, bottom: 50, left: 50 },
+        width = 800 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+  
+    // Append an SVG element to the body and set its dimensions
+    var svg = d3.select("body")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+    // Load data from the CSV file
+    d3.csv("winter.csv").then(function (data) {
+      // Convert data to numeric values
+      data.forEach(function (d) {
+        d.Year = +d.Year;
+        d["Gold %"] = +d["Gold %"];
+      });
+  
+      // Group data by country ('USA', 'RUS', and others)
+      var dataGrouped = d3.group(data, d => d.Country === 'USA' ? 'USA' : (d.Country === 'RUS' ? 'RUS' : 'Other'));
+  
+      // Stack the data
+      var stack = d3.stack()
+        .keys(["USA", "RUS", "Other"])
+        .order(d3.stackOrderNone)
+        .offset(d3.stackOffsetNone);
+  
+      var series = stack(dataGrouped);
+  
+      // Set the scales for x and y axes
+      var x = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.Year))
+        .range([0, width]);
+  
+      var y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d["Gold %"])])
+        .range([height, 0]);
+  
+      // Create the line generator
+      var line = d3.line()
+        .x(d => x(d.data.Year))
+        .y(d => y(d[1]));
+  
+      // Append the paths for each country line
+      svg.selectAll(".line")
+        .data(series)
+        .enter().append("path")
+        .attr("class", "line")
+        .style("stroke", (d) => d.key === 'USA' ? 'blue' : (d.key === 'RUS' ? 'red' : 'green'))
+        .attr("d", line);
+  
+      // Add x-axis
+      svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+  
+      // Add y-axis
+      svg.append("g")
+        .call(d3.axisLeft(y));
+  
+      // Add labels
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom)
+        .attr("text-anchor", "middle")
+        .text("Year");
+  
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", 0 - height / 2)
+        .attr("y", 0 - margin.left)
+        .attr("text-anchor", "middle")
+        .text("Gold %");
+    });
+  </script>
 </body>
 </html>
