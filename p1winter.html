@@ -70,10 +70,15 @@
 
       // Append the path for the USA line
       svg.append("path")
-        .datum(dataFiltered)
-        .attr("class", "line")
-        .style("stroke", "blue")
-        .attr("d", line);
+      .datum(dataFiltered)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
+
   
       // Add x-axis
       svg.append("g")
