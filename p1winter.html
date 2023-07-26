@@ -43,28 +43,17 @@
   
     // Load data from the CSV file
     d3.csv("winter.csv").then(function (data) {
+      // Filter data for 'Country=USA'
+      var dataFiltered = data.filter(function (d) {
+        return d.Country === 'USA';
+      });
+  
       // Convert data to numeric values
-      data.forEach(function (d) {
+      dataFiltered.forEach(function (d) {
         d.Year = +d.Year;
         d.GPCT = +d.GPCT;
       });
-  
-      // Filter data for countries 'USA', 'RUS', and others
-      var dataFiltered = data.filter(function (d) {
-        return d.Country === 'USA' || d.Country === 'RUS' || (d.Country !== 'USA' && d.Country !== 'RUS');
-      });
-  
-      // Group data by country ('USA', 'RUS', and others)
-      var dataGrouped = d3.group(dataFiltered, d => d.Country);
-  
-      // Stack the data
-      var stack = d3.stack()
-        .keys(dataGrouped.keys())
-        .order(d3.stackOrderNone)
-        .offset(d3.stackOffsetNone);
-  
-      var series = stack(dataGrouped);
-  
+
       // Set the scales for x and y axes
       var x = d3.scaleLinear()
         .domain(d3.extent(dataFiltered, d => d.Year))
@@ -76,15 +65,14 @@
   
       // Create the line generator
       var line = d3.line()
-        .x(d => x(d.data.Year))
-        .y(d => y(d[1]));
-  
-      // Append the paths for each country line
-      svg.selectAll(".line")
-        .data(series)
-        .enter().append("path")
+        .x(d => x(d.Year))
+        .y(d => y(d.GPCT));
+
+      // Append the path for the USA line
+      svg.append("path")
+        .datum(dataFiltered)
         .attr("class", "line")
-        .style("stroke", (d) => d.key === 'USA' ? 'blue' : (d.key === 'RUS' ? 'red' : 'green'))
+        .style("stroke", "blue")
         .attr("d", line);
   
       // Add x-axis
@@ -99,14 +87,14 @@
       // Add labels
       svg.append("text")
         .attr("x", width / 2)
-        .attr("y", height + margin.bottom)
+        .attr("y", height + margin.bottom - 10) // Adjusted to make it visible within the SVG area
         .attr("text-anchor", "middle")
         .text("Year");
   
       svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("x", 0 - height / 2)
-        .attr("y", 0 - margin.left)
+        .attr("y", 0 - margin.left + 10) // Adjusted to make it visible within the SVG area
         .attr("text-anchor", "middle")
         .text("Gold %");
     });
