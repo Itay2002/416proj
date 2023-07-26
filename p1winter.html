@@ -99,9 +99,9 @@
 
       // Append the path for the RUS line
       svg.append("path").
-      datum(dataFilteredUSA)
-        .attr("class", "line")
-        .style("stroke", "red")
+      .datum(dataFilteredRUS)
+      .attr("stroke", "red")
+      .attr("stroke-width", 1.5)
         .attr("d", d3.line()
         .x(function(d) { return x(d.Year) })
         .y(function(d) { return y(d.GPCT) })
