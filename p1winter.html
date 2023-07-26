@@ -69,13 +69,15 @@
         .y(d => y(d.GPCT));
 
       // Append the path for the USA line
-      svg.append("path")
-      .datum(dataFiltered).fill("None")
+      // Add the line
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
       .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.GPCT) })
+        .x(function(d) { return x(d.date) })
+        .y(function(d) { return y(d.value) })
         )
 
   
