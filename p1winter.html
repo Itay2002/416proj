@@ -73,7 +73,7 @@
         .range([0, width]);
   
       var y = d3.scaleLinear()
-        .domain([0, d3.max(dataFilteredUSA, d => d.GPCT)])
+        .domain([0, 1])
         .range([height, 0]);
   
       // Create the line generator
