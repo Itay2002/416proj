@@ -46,15 +46,20 @@
       // Convert data to numeric values
       data.forEach(function (d) {
         d.Year = +d.Year;
-        d["Gold %"] = +d["Gold %"];
+        d.GPCT = +d.GPCT;
+      });
+  
+      // Filter data for countries 'USA', 'RUS', and others
+      var dataFiltered = data.filter(function (d) {
+        return d.Country === 'USA' || d.Country === 'RUS' || (d.Country !== 'USA' && d.Country !== 'RUS');
       });
   
       // Group data by country ('USA', 'RUS', and others)
-      var dataGrouped = d3.group(data, d => d.Country === 'USA' ? 'USA' : (d.Country === 'RUS' ? 'RUS' : 'Other'));
+      var dataGrouped = d3.group(dataFiltered, d => d.Country);
   
       // Stack the data
       var stack = d3.stack()
-        .keys(["USA", "RUS", "Other"])
+        .keys(dataGrouped.keys())
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
   
@@ -62,11 +67,11 @@
   
       // Set the scales for x and y axes
       var x = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.Year))
+        .domain(d3.extent(dataFiltered, d => d.Year))
         .range([0, width]);
   
       var y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d["Gold %"])])
+        .domain([0, d3.max(dataFiltered, d => d.GPCT)])
         .range([height, 0]);
   
       // Create the line generator
