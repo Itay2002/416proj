@@ -44,40 +44,57 @@
     // Load data from the CSV file
     d3.csv("winter.csv").then(function (data) {
       // Filter data for 'Country=USA'
-      var dataFiltered = data.filter(function (d) {
+      var dataFilteredUSA = data.filter(function (d) {
         return d.Country === 'USA';
       });
   
+      // Filter data for 'Country=RUS'
+      var dataFilteredRUS = data.filter(function (d) {
+        return d.Country === 'RUS';
+      });
+
       // Convert data to numeric values
-      dataFiltered.forEach(function (d) {
+      dataFilteredUSA.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = +d.GPCT;
+      });
+
+      dataFilteredRUS.forEach(function (d) {
         d.Year = +d.Year;
         d.GPCT = +d.GPCT;
       });
 
       // Set the scales for x and y axes
       var x = d3.scaleLinear()
-        .domain(d3.extent(dataFiltered, d => d.Year))
+        .domain(d3.extent(data, d => d.Year))
         .range([0, width]);
   
       var y = d3.scaleLinear()
-        .domain([0, d3.max(dataFiltered, d => d.GPCT)])
+        .domain([0, d3.max(data, d => d.GPCT)])
         .range([height, 0]);
   
-      // Create the line generator
-      var line = d3.line()
+      // Create the line generators
+      var lineUSA = d3.line()
+        .x(d => x(d.Year))
+        .y(d => y(d.GPCT));
+
+      var lineRUS = d3.line()
         .x(d => x(d.Year))
         .y(d => y(d.GPCT));
 
       // Append the path for the USA line
       svg.append("path")
-      .datum(dataFiltered)
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.GPCT) })
-        )
+        .datum(dataFilteredUSA)
+        .attr("class", "line")
+        .style("stroke", "blue")
+        .attr("d", lineUSA);
 
+      // Append the path for the RUS line
+      svg.append("path")
+        .datum(dataFilteredRUS)
+        .attr("class", "line")
+        .style("stroke", "red")
+        .attr("d", lineRUS);
   
       // Add x-axis
       svg.append("g")
