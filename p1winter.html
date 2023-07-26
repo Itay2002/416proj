@@ -47,6 +47,10 @@
       var dataFiltered = data.filter(function (d) {
         return d.Country === 'USA';
       });
+
+      var dataFilteredRUS = data.filter(function (d) {
+        return d.Country === 'RUS';
+      });
   
       // Convert data to numeric values
       dataFiltered.forEach(function (d) {
@@ -71,6 +75,16 @@
       // Append the path for the USA line:THIS WORKED
       svg.append("path")
       .datum(dataFiltered)
+      .attr("fill","none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
+        // Append the path for the RUS line
+      svg.append("path")
+      .datum(dataFilteredRUS)
       .attr("fill","none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
