@@ -48,8 +48,8 @@
         return d.Country === 'USA';
       });
 
-      var dataFilteredRUS = data.filter(function (d) {
-        return d.Country === 'RUS';
+      var dataFilteredCAN = data.filter(function (d) {
+        return d.Country === 'CAN';
       });
   
       // Convert data to numeric values
@@ -84,7 +84,7 @@
         )
         // Append the path for the RUS line
       svg.append("path")
-      .datum(dataFilteredRUS)
+      .datum(dataFilteredCAN)
       .attr("fill","none")
       .attr("stroke", "red")
       .attr("stroke-width", 4)
