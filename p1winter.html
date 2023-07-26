@@ -59,13 +59,27 @@
       });
 
       // Set the scales for x and y axes
-      var x = d3.scaleLinear()
-        .domain(d3.extent(dataFiltered, d => d.Year))
-        .range([0, width]);
-  
-      var y = d3.scaleLinear()
-        .domain([0, d3.max(dataFiltered, d => d.GPCT)])
-        .range([height, 0]);
+var x = d3.scaleLinear()
+  .domain([1896, 2014]) // Set the x-axis domain from 1896 to 2014
+  .range([0, width])
+  .nice(); // To ensure ticks are positioned nicely
+
+var y = d3.scaleLinear()
+  .domain([0, 100]) // Set the y-axis domain from 0 to 100
+  .range([height, 0])
+  .nice(); // To ensure ticks are positioned nicely
+
+// Create the x-axis with custom ticks
+var xAxis = d3.axisBottom(x)
+  .tickValues(d3.range(1896, 2015, 4)) // Start at 1896, end at 2014 (inclusive), increment every 4 years
+  .tickFormat(d3.format("d")); // Format tick values as integers
+
+// Create the y-axis with custom ticks
+var yAxis = d3.axisLeft(y)
+  .tickValues(d3.range(0, 101, 10)); // Start at 0, end at 100 (inclusive), increment every 10
+
+
+
   
       // Create the line generator
       var line = d3.line()
