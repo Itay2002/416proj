@@ -5,7 +5,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      background-color: lightgreen;
       margin: 0;
       padding: 0;
     }
@@ -17,6 +17,10 @@
       position: absolute;
       top: 0;
       left: 0;
+      margin-top: 20px;
+    }
+    .text-box {
+      margin-top: 100px;
     }
   </style>
   <script src="https://d3js.org/d3.v6.min.js"></script>
@@ -25,6 +29,35 @@
   <header>
     Winter Olympics
   </header>
+  <div class="text-box" id="textBox">
+    <!-- Text box to enter country code -->
+    <input type="text" id="countryCode" placeholder="Enter new country (e.g., FRA)">
+    <button onclick="updateChart()">Add Country</button>
+  </div><script>
+     function updateChart() {
+    // Get the user input from the text box
+    var countryCode = document.getElementById("countryCode").value;
+
+    // Filter data based on the user input country code
+    var dataFilteredNew = data.filter(function (d) {
+      return d.Country === countryCode;
+    });
+    dataFilteredNew.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = d.GPCT;
+      });
+
+    svg.append("path")
+      .datum(dataFilteredNew)
+      .attr("fill","none")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
+  }
+  </script>
 
   <!-- Your D3 line chart and CSV file code can be added here -->
   <script>
@@ -44,23 +77,33 @@
     // Load data from the CSV file
     d3.csv("winter.csv").then(function (data) {
       // Filter data for 'Country=USA'
-      var dataFiltered = data.filter(function (d) {
+      var dataFilteredUSA = data.filter(function (d) {
         return d.Country === 'USA';
       });
-
-      var dataFilteredCAN = data.filter(function (d) {
-        return d.Country === 'CAN';
+      //manipulate later accordingly use 100-usa temp placeholder rn
+      var dataFilteredOther = data.filter(function (d) {
+        return d.Country === 'FIN';
       });
+      //updatechart
+    
+
+  // ...
+
   
       // Convert data to numeric values
-      dataFiltered.forEach(function (d) {
+      dataFilteredUSA.forEach(function (d) {
         d.Year = +d.Year;
         d.GPCT = +d.GPCT;
+      });
+      //100-USA
+      dataFilteredOther.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = d.GPCT;
       });
 
       // Set the scales for x and y axes
 var x = d3.scaleLinear()
-  .domain([1896, 2014]) // Set the x-axis domain from 1896 to 2014
+  .domain([1924, 2014]) // Set the x-axis domain from 1896 to 2014
   .range([0, width])
   .nice(); // To ensure ticks are positioned nicely
 
@@ -71,15 +114,12 @@ var y = d3.scaleLinear()
 
 // Create the x-axis with custom ticks
 var xAxis = d3.axisBottom(x)
-  .tickValues(d3.range(1896, 2015, 4)) // Start at 1896, end at 2014 (inclusive), increment every 4 years
+  .tickValues(d3.range(1924, 2015, 4)) // Start at 1896, end at 2014 (inclusive), increment every 4 years
   .tickFormat(d3.format("d")); // Format tick values as integers
 
 // Create the y-axis with custom ticks
 var yAxis = d3.axisLeft(y)
   .tickValues(d3.range(0, 101, 10)); // Start at 0, end at 100 (inclusive), increment every 10
-
-
-
   
       // Create the line generator
       var line = d3.line()
@@ -88,25 +128,49 @@ var yAxis = d3.axisLeft(y)
 
       // Append the path for the USA line:THIS WORKED
       svg.append("path")
-      .datum(dataFiltered)
+      .datum(dataFilteredUSA)
       .attr("fill","none")
-      .attr("stroke", "steelblue")
+      .attr("stroke", "red")
       .attr("stroke-width", 1.5)
       .attr("d", d3.line()
         .x(function(d) { return x(d.Year) })
         .y(function(d) { return y(d.GPCT) })
         )
-        // Append the path for the RUS line
+        
+        // Append the path for the Other line
       svg.append("path")
-      .datum(dataFilteredCAN)
+      .datum(dataFilteredOther)
       .attr("fill","none")
-      .attr("stroke", "red")
+      .attr("stroke", "steelblue")
       .attr("stroke-width", 4)
       .attr("d", d3.line()
         .x(function(d) { return x(d.Year) })
         .y(function(d) { return y(d.GPCT) })
         )
+      
+//  function updateChart() {
+//     // Get the user input from the text box
+//     var countryCode = document.getElementById("countryCode").value;
 
+//     // Filter data based on the user input country code
+//     var dataFilteredNew = data.filter(function (d) {
+//       return d.Country === countryCode;
+//     });
+//     dataFilteredNew.forEach(function (d) {
+//         d.Year = +d.Year;
+//         d.GPCT = d.GPCT;
+//       });
+
+//     svg.append("path")
+//       .datum(dataFilteredNew)
+//       .attr("fill","none")
+//       .attr("stroke", "green")
+//       .attr("stroke-width", 1.5)
+//       .attr("d", d3.line()
+//         .x(function(d) { return x(d.Year) })
+//         .y(function(d) { return y(d.GPCT) })
+//         )
+//   }
   
       // Add x-axis
       svg.append("g")
@@ -130,7 +194,43 @@ var yAxis = d3.axisLeft(y)
         .attr("y", 0 - margin.left + 10) // Adjusted to make it visible within the SVG area
         .attr("text-anchor", "middle")
         .text("Gold %");
+//usa txt
+      svg.append("text")
+    .attr("x", width -200)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "red")
+    .attr("text-anchor", "end")
+    .text("RED=USA");
+
+    svg.append("text")
+    .attr("x", width -70)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "blue")
+    .attr("text-anchor", "end")
+    .text("BLUE=OTHER");
+
+    svg.append("text")
+    .attr("x", width +50)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "white")
+    .attr("text-anchor", "end")
+    .text("WHITE=NEW");
     });
+    // function updateChart() {
+    //   // Get the user input from the text box
+    //   var countryCode = document.getElementById("countryCode").value;
+
+    //   // Filter data based on the user input country code
+    //   var dataFilteredNew = data.filter(function (d) {
+    //     return d.Country === countryCode;
+    //   });
+    //   dataFilteredNew.forEach(function (d) {
+    //     d.Year = +d.Year;
+    //     d.GPCT = d.GPCT;
+    //   });
+
+    //   updateChart(dataFilteredNew);
+    // }
   </script>
 </body>
 </html>
