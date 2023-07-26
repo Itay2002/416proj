@@ -69,11 +69,11 @@
 
       // Set the scales for x and y axes
       var x = d3.scaleLinear()
-        .domain(d3.extent(dataFilteredUSA, d => d.Year))
+        .domain(d3.extent(dataFilteredOther, d => d.Year))
         .range([0, width]);
   
       var y = d3.scaleLinear()
-        .domain([0, 1])
+        .domain([0, d3.max(dataFilteredOther, d => d.GPCT)])
         .range([height, 0]);
   
       // Create the line generator
