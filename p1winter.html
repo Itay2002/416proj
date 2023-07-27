@@ -31,32 +31,14 @@
   </header>
   <div class="text-box" id="textBox">
     <!-- Text box to enter country code -->
-    <input type="text" id="countryCode" placeholder="Enter new country (e.g., FRA)">
-    <button onclick="updateChart()">Add Country</button>
-  </div><script>
-     function updateChart() {
-    // Get the user input from the text box
-    var countryCode = document.getElementById("countryCode").value;
-
-    // Filter data based on the user input country code
-    var dataFilteredNew = data.filter(function (d) {
-      return d.Country === countryCode;
-    });
-    dataFilteredNew.forEach(function (d) {
-        d.Year = +d.Year;
-        d.GPCT = d.GPCT;
-      });
-
-    svg.append("path")
-      .datum(dataFilteredNew)
-      .attr("fill","none")
-      .attr("stroke", "white")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.GPCT) })
-        )
-  }
+    <input type="text" id="countryCode" placeholder="Enter new country (e.g., FRA)"></input>
+    <button onclick="updateFunc()">Add Country</button>
+    
+  </div>
+ 
+<script>
+  
+  
   </script>
 
   <!-- Your D3 line chart and CSV file code can be added here -->
@@ -73,7 +55,7 @@
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  
+    
     // Load data from the CSV file
     d3.csv("winter.csv").then(function (data) {
       // Filter data for 'Country=USA'
@@ -85,7 +67,33 @@
         return d.Country === 'FIN';
       });
       //updatechart
+      function updateFunc() {
+       
+    var textBox = document.getElementById("textBox");
+
+    var countryCodeInput = textBox.querySelector("#countryCode");
+    document.getElementById("textBox").innerHTML = (countryCodeInput.value) 
     
+    var code = countryCodeInput.value
+    d3.csv("winter.csv").then(function (data) {
+      // Filter data for 'Country=code'
+      var dataFilteredNew = data.filter(function (d) {
+        return d.Country === code;
+      });
+    dataFilteredNew.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = d.GPCT;
+      });
+      
+    svg.append("path")
+      .datum(dataFilteredNew)
+      .attr("fill","none")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )})};
 
   // ...
 
@@ -230,7 +238,28 @@ var yAxis = d3.axisLeft(y)
     //   });
 
     //   updateChart(dataFilteredNew);
-    // }
+    // }''
+    function updateFunc() {
+    var textBox = document.getElementById("textBox");
+    var countryCodeInput = textBox.querySelector("#countryCode");
+    document.getElementById("textBox").innerHTML = (countryCodeInput.value) }
+    var dataFilteredNew = data.filter(function (d) {
+      return d.Country === countryCodeInput.value;
+    });
+    dataFilteredNew.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = d.GPCT;
+      });
+
+    svg.append("path")
+      .datum(dataFilteredNew)
+      .attr("fill","none")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
   </script>
 </body>
 </html>
