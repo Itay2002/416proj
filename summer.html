@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Summer Olympics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: lightgreen;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: red;
+      color: blue;
+      padding: 10px;
+      font-size: 24px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin-top: 20px;
+    }
+    .dropdown {
+      margin-top: 100px;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+
+  <header>
+    
+    SUMMER OLYMPICS
+  </header>
+  <div class ="dropdown">
+<button onclick="Winter()">Winter Olympics</button>
+<button onclick="Summer()">Summer Olympics</button>
+<button onclick="SummerWinter()">Summer/Winter Olympics</button>
+<button onclick="Home()">Homescreen</button>
+<button onclick="updateFuncSummer()">Add Country(Summer)</button>
+    <!-- Dropdown to select a country QUOTES suck-->
+    <select id="code">
+      <option value="">Select Country</option>
+      <option value="AUS">AUS</option>
+      <option value="AUT">AUT</option>
+      <option value="BEL">BEL</option>
+      <option value="BLR">BLR</option>
+      <option value="BUL">BUL</option>
+      <option value="CAN">CAN</option>
+      <option value="CHN">CHN</option>
+      <option value="CRO">CRO</option>
+      <option value="CZE">CZE</option>
+      <option value="ESP">ESP</option>
+      <option value="EST">EST</option>
+      <option value="EUA">EUA</option>
+      <option value="EUN">EUN</option>
+      <option value="FIN">FIN</option>
+      <option value="FRA">FRA</option>
+      <option value="FRG">FRG</option>
+      <option value="GBR">GBR</option>
+      <option value="GDR">GDR</option>
+      <option value="GER">GER</option>
+      <option value="ITA">ITA</option>
+      <option value="JPN">JPN</option>
+      <option value="KAZ">KAZ</option>
+      <option value="KOR">KOR</option>
+      <option value="NED">NED</option>
+      <option value="NOR">NOR</option>
+      <option value="POL">POL</option>
+      <option value="RUS">RUS</option>
+      <option value="SLO">SLO</option>
+      <option value="SUI">SUI</option>
+      <option value="SVK">SVK</option>
+      <option value="SWE">SWE</option>
+      <option value="TCH">TCH</option>
+      <option value="UKR">UKR</option>
+      <option value="URS">URS</option>
+      <option value="USA">USA</option>
+      <option value="UZB">UZB</option>
+    </select>    
+</div>
+
+
+
+<script>
+  function Home() {
+    window.location.href = "index.html";
+  }
+
+  function Winter() {
+    window.location.href = "winter.html";
+  }
+
+  function Summer() {
+    window.location.href = "summer.html";
+  }
+
+  function SummerWinter() {
+    window.location.href = "summerwinter.html";
+  }
+</script>
+
+<script>
+    var globalVarCode = "";
+    //var datalist = []
+  
+    function SummerWinter() {
+      d3.select("svg").remove()
+  
+    }
+  </script>
+  
+  <script>
+    //update
+    var globalVarCode = "";
+    //var datalist = []
+  
+    function updateFuncSummer() {
+    // IMPORATN LINE CLEAR AND REDRAW SVG
+     d3.select("svg").remove()
+     //alert("here")
+     selectElement = document.querySelector("#code");
+     output = selectElement.value;
+     globalVarCode = output;
+     //globalVarCode = document.getElementById("countryCode").value;
+    
+      alert(globalVarCode)
+    
+      var margin = { top: 50, right: 50, bottom: 50, left: 50 },
+          width = 800 - margin.left - margin.right,
+          height = 500 - margin.top - margin.bottom;
+    
+      // Append an SVG element to the body and set its dimensions
+      var svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      
+      // Load data from the CSV file
+      d3.csv("summer_g.csv").then(function (data) {
+        // Filter data for 'Country=USA'
+        var dataFilteredUSA = data.filter(function (d) {
+          return d.Country === 'USA'&& d.Year >= 1924;
+        });
+        //manipulate later accordingly use 100-usa temp placeholder rn
+        var dataFilteredOther = data.filter(function (d) {
+          return d.Country === 'USA'&& d.Year >= 1924;
+        });
+        var dataFilteredNew = data.filter(function (d) {
+          return d.Country === globalVarCode&& d.Year >= 1924;
+        });
+        //updatechart
+        
+  
+    
+        // Convert data to numeric values
+        dataFilteredUSA.forEach(function (d) {
+          d.Year = +d.Year;
+          d.GPCT = +d.GPCT;
+        });
+        
+  
+        // Set the scales for x and y axes
+  var x = d3.scaleLinear()
+    .domain([1924, 2014]) // Set the x-axis domain from 1896 to 2014
+    .range([0, width])
+    .nice(); // To ensure ticks are positioned nicely
+  
+  var y = d3.scaleLinear()
+    .domain([0, 100]) // Set the y-axis domain from 0 to 100
+    .range([height, 0])
+    .nice(); // To ensure ticks are positioned nicely
+  
+  // Create the x-axis with custom ticks
+  var xAxis = d3.axisBottom(x)
+    .tickValues(d3.range(1924, 2015, 4)) // Start at 1896, end at 2014 (inclusive), increment every 4 years
+    .tickFormat(d3.format("d")); // Format tick values as integers
+  
+  // Create the y-axis with custom ticks
+  var yAxis = d3.axisLeft(y)
+    .tickValues(d3.range(0, 101, 10)); // Start at 0, end at 100 (inclusive), increment every 10
+    
+        // Create the line generator
+        var line = d3.line()
+          .x(d => x(d.Year))
+          .y(d => y(d.GPCT));
+  
+        // Append the path for the USA line:THIS WORKED
+        svg.append("path")
+        .datum(dataFilteredUSA)
+        .attr("fill","none")
+        .attr("stroke", "red")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.Year) })
+          .y(function(d) { return y(d.GPCT) })
+          )
+         
+        
+        // Add x-axis
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+    
+        // Add y-axis
+        svg.append("g")
+          .call(d3.axisLeft(y));
+    
+        // Add labels
+        svg.append("text")
+          .attr("x", width / 2)
+          .attr("y", height + margin.bottom - 10) // Adjusted to make it visible within the SVG area
+          .attr("text-anchor", "middle")
+          .text("Year");
+    
+        svg.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("x", 0 - height / 2)
+          .attr("y", 0 - margin.left + 10) // Adjusted to make it visible within the SVG area
+          .attr("text-anchor", "middle")
+          .text("Gold %");
+  //usa txt
+        svg.append("text")
+      .attr("x", width -200)
+      .attr("y", height+50) // Position it at the last data point of the USA line
+      .attr("fill", "red")
+      .attr("text-anchor", "end")
+      .text("RED=USA");
+  
+      svg.append("text")
+      .attr("x", width -70)
+      .attr("y", height+50) // Position it at the last data point of the USA line
+      .attr("fill", "blue")
+      .attr("text-anchor", "end")
+      .text("BLUE=OTHER");
+  
+      svg.append("text")
+      .attr("x", width +50)
+      .attr("y", height+50) // Position it at the last data point of the USA line
+      .attr("fill", "white")
+      .attr("text-anchor", "end")
+      .text("WHITE=")
+  .append("tspan")
+  .text(globalVarCode);
+  
+      
+      
+      dataFilteredNew.forEach(function (d) {
+          d.Year = +d.Year;
+          d.GPCT = +d.GPCT;
+        });
+        
+      svg.append("path")
+        .datum(dataFilteredNew)
+        .attr("fill","none")
+        .attr("stroke", "white")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.Year) })
+          .y(function(d) { return y(d.GPCT) })
+          )
+          //100-USA-NEEDS TO BE LAST LOGIC WISE FOR DATA ACCURACY
+          dataFilteredOther.forEach(function (d) {
+          d.Year = +d.Year;
+          d.GPCT = 100-d.GPCT;
+        });
+          // Append the path for the Other line
+        svg.append("path")
+        .datum(dataFilteredOther)
+        .attr("fill","none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 4)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.Year) })
+          .y(function(d) { return y(d.GPCT) })
+          )
+        })
+        };
+    </script>
+  
+  
+  
+  
+    <!-- WINTER:Your D3 line chart and CSV file code can be added here START-->
+    <script>
+      
+      // Set the dimensions and margins for the chart
+      var margin = { top: 50, right: 50, bottom: 50, left: 50 },
+          width = 800 - margin.left - margin.right,
+          height = 500 - margin.top - margin.bottom;
+    
+      // Append an SVG element to the body and set its dimensions
+      var svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      
+      // Load data from the CSV file
+      d3.csv("summer_g.csv").then(function (data) {
+        // Filter data for 'Country=USA'
+        var dataFilteredUSA = data.filter(function (d) {
+          return d.Country === 'USA';
+        });
+        //manipulate later accordingly use 100-usa temp placeholder rn
+        var dataFilteredOther = data.filter(function (d) {
+          return d.Country === 'USA';
+        });
+        //updatechart
+        
+  
+    
+        // Convert data to numeric values
+        dataFilteredUSA.forEach(function (d) {
+          d.Year = +d.Year;
+          d.GPCT = +d.GPCT;
+        });
+        
+  
+        // Set the scales for x and y axes
+  var x = d3.scaleLinear()
+    .domain([1924, 2014]) // Set the x-axis domain from 1896 to 2014
+    .range([0, width])
+    .nice(); // To ensure ticks are positioned nicely
+  
+  var y = d3.scaleLinear()
+    .domain([0, 100]) // Set the y-axis domain from 0 to 100
+    .range([height, 0])
+    .nice(); // To ensure ticks are positioned nicely
+  
+  // Create the x-axis with custom ticks
+  var xAxis = d3.axisBottom(x)
+    .tickValues(d3.range(1924, 2015, 4)) // Start at 1896, end at 2014 (inclusive), increment every 4 years
+    .tickFormat(d3.format("d")); // Format tick values as integers
+  
+  // Create the y-axis with custom ticks
+  var yAxis = d3.axisLeft(y)
+    .tickValues(d3.range(0, 101, 10)); // Start at 0, end at 100 (inclusive), increment every 10
+    
+        // Create the line generator
+        var line = d3.line()
+          .x(d => x(d.Year))
+          .y(d => y(d.GPCT));
+  
+        // Append the path for the USA line:THIS WORKED
+        svg.append("path")
+        .datum(dataFilteredUSA)
+        .attr("fill","none")
+        .attr("stroke", "red")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.Year) })
+          .y(function(d) { return y(d.GPCT) })
+          )
+          //100-USA-NEEDS TO BE LAST LOGIC WISE FOR DATA ACCURACY
+        dataFilteredOther.forEach(function (d) {
+          d.Year = +d.Year;
+          d.GPCT = 100-d.GPCT;
+        });
+          // Append the path for the Other line
+        svg.append("path")
+        .datum(dataFilteredOther)
+        .attr("fill","none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 4)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.Year) })
+          .y(function(d) { return y(d.GPCT) })
+          )
+        
+        // Add x-axis
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+    
+        // Add y-axis
+        svg.append("g")
+          .call(d3.axisLeft(y));
+    
+        // Add labels
+        svg.append("text")
+          .attr("x", width / 2)
+          .attr("y", height + margin.bottom - 10) // Adjusted to make it visible within the SVG area
+          .attr("text-anchor", "middle")
+          .text("Year");
+    
+        svg.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("x", 0 - height / 2)
+          .attr("y", 0 - margin.left + 10) // Adjusted to make it visible within the SVG area
+          .attr("text-anchor", "middle")
+          .text("Gold Medal Win %");
+  //usa txt
+        svg.append("text")
+      .attr("x", width -200)
+      .attr("y", height+50) // Position it at the last data point of the USA line
+      .attr("fill", "red")
+      .attr("text-anchor", "end")
+      .text("RED=USA");
+  
+      svg.append("text")
+      .attr("x", width -70)
+      .attr("y", height+50) // Position it at the last data point of the USA line
+      .attr("fill", "blue")
+      .attr("text-anchor", "end")
+      .text("BLUE=NONUSA");
+  
+      svg.append("text")
+      .attr("x", width +50)
+      .attr("y", height+50) // Position it at the last data point of the USA line
+      .attr("fill", "white")
+      .attr("text-anchor", "end")
+      .text("WHITE=NEW");
+  
+      
+      });
+     
+      
+    </script>
+  </html>

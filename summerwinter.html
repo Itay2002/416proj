@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Winter Olympics</title>
+  <title>Winter/Summer Olympics</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,73 +29,75 @@
 
   <header>
     
-    WINTER OLYMPICS
+   WINTER AND SUMMER OLYMPICS
   </header>
-  
-<div class ="dropdown">
+  <div class ="dropdown">
 <button onclick="Winter()">Winter Olympics</button>
 <button onclick="Summer()">Summer Olympics</button>
 <button onclick="SummerWinter()">Summer/Winter Olympics</button>
 <button onclick="Home()">Homescreen</button>
-<button onclick="updateFuncWinter()">Add Country(Winter)</button>
-    <!-- Dropdown to select a country QUOTES suck-->
-    <select id="code">
-      <option value="">Select Country</option>
-      <option value="AUS">AUS</option>
-      <option value="AUT">AUT</option>
-      <option value="BEL">BEL</option>
-      <option value="BLR">BLR</option>
-      <option value="BUL">BUL</option>
-      <option value="CAN">CAN</option>
-      <option value="CHN">CHN</option>
-      <option value="CRO">CRO</option>
-      <option value="CZE">CZE</option>
-      <option value="ESP">ESP</option>
-      <option value="EST">EST</option>
-      <option value="EUA">EUA</option>
-      <option value="EUN">EUN</option>
-      <option value="FIN">FIN</option>
-      <option value="FRA">FRA</option>
-      <option value="FRG">FRG</option>
-      <option value="GBR">GBR</option>
-      <option value="GDR">GDR</option>
-      <option value="GER">GER</option>
-      <option value="ITA">ITA</option>
-      <option value="JPN">JPN</option>
-      <option value="KAZ">KAZ</option>
-      <option value="KOR">KOR</option>
-      <option value="NED">NED</option>
-      <option value="NOR">NOR</option>
-      <option value="POL">POL</option>
-      <option value="RUS">RUS</option>
-      <option value="SLO">SLO</option>
-      <option value="SUI">SUI</option>
-      <option value="SVK">SVK</option>
-      <option value="SWE">SWE</option>
-      <option value="TCH">TCH</option>
-      <option value="UKR">UKR</option>
-      <option value="URS">URS</option>
-      <option value="USA">USA</option>
-      <option value="UZB">UZB</option>
-    </select>    
-    </div>
-    <script>
-      function Home() {
-        window.location.href = "index.html";
-      }
-    
-      function Winter() {
-        window.location.href = "p1winter.html";
-      }
-    
-      function Summer() {
-        window.location.href = "p1summer.html";
-      }
-    
-      function SummerWinter() {
-        window.location.href = "p1summerwinter.html";
-      }
-    </script>
+<button onclick="updateFuncSW()">Add Country(Summer)</button>
+  <!-- Dropdown to select a country QUOTES suck-->
+  <select id="code">
+    <option value="">Select Country</option>
+    <option value="AUS">AUS</option>
+    <option value="AUT">AUT</option>
+    <option value="BEL">BEL</option>
+    <option value="BLR">BLR</option>
+    <option value="BUL">BUL</option>
+    <option value="CAN">CAN</option>
+    <option value="CHN">CHN</option>
+    <option value="CRO">CRO</option>
+    <option value="CZE">CZE</option>
+    <option value="ESP">ESP</option>
+    <option value="EST">EST</option>
+    <option value="EUA">EUA</option>
+    <option value="EUN">EUN</option>
+    <option value="FIN">FIN</option>
+    <option value="FRA">FRA</option>
+    <option value="FRG">FRG</option>
+    <option value="GBR">GBR</option>
+    <option value="GDR">GDR</option>
+    <option value="GER">GER</option>
+    <option value="ITA">ITA</option>
+    <option value="JPN">JPN</option>
+    <option value="KAZ">KAZ</option>
+    <option value="KOR">KOR</option>
+    <option value="NED">NED</option>
+    <option value="NOR">NOR</option>
+    <option value="POL">POL</option>
+    <option value="RUS">RUS</option>
+    <option value="SLO">SLO</option>
+    <option value="SUI">SUI</option>
+    <option value="SVK">SVK</option>
+    <option value="SWE">SWE</option>
+    <option value="TCH">TCH</option>
+    <option value="UKR">UKR</option>
+    <option value="URS">URS</option>
+    <option value="USA">USA</option>
+    <option value="UZB">UZB</option>
+  </select>    
+</div>
+
+
+
+<script>
+function Home() {
+  window.location.href = "index.html";
+}
+
+function Winter() {
+  window.location.href = "winter.html";
+}
+
+function Summer() {
+  window.location.href = "summer.html";
+}
+
+function SummerWinter() {
+  window.location.href = "summerwinter.html";
+}
+</script>
 
 <script>
   var globalVarCode = "";
@@ -112,7 +114,7 @@
   var globalVarCode = "";
   //var datalist = []
 
-  function updateFuncWinter() {
+  function updateFuncSummer() {
   // IMPORATN LINE CLEAR AND REDRAW SVG
    d3.select("svg").remove()
    //alert("here")
@@ -136,17 +138,17 @@
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
     // Load data from the CSV file
-    d3.csv("winter_g.csv").then(function (data) {
+    d3.csv("summer_g.csv").then(function (data) {
       // Filter data for 'Country=USA'
       var dataFilteredUSA = data.filter(function (d) {
-        return d.Country === 'USA';
+        return d.Country === 'USA'&& d.Year >= 1924;
       });
       //manipulate later accordingly use 100-usa temp placeholder rn
       var dataFilteredOther = data.filter(function (d) {
-        return d.Country === 'USA';
+        return d.Country === 'USA'&& d.Year >= 1924;
       });
       var dataFilteredNew = data.filter(function (d) {
-        return d.Country === globalVarCode;
+        return d.Country === globalVarCode&& d.Year >= 1924;
       });
       //updatechart
       
@@ -238,7 +240,9 @@ var yAxis = d3.axisLeft(y)
     .attr("y", height+50) // Position it at the last data point of the USA line
     .attr("fill", "white")
     .attr("text-anchor", "end")
-    .text("WHITE=NEW");
+    .text("WHITE=")
+.append("tspan")
+.text(globalVarCode);
 
     
     
@@ -295,7 +299,7 @@ var yAxis = d3.axisLeft(y)
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
     // Load data from the CSV file
-    d3.csv("winter_g.csv").then(function (data) {
+    d3.csv("summer_g.csv").then(function (data) {
       // Filter data for 'Country=USA'
       var dataFilteredUSA = data.filter(function (d) {
         return d.Country === 'USA';
