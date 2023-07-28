@@ -10,8 +10,8 @@
       padding: 0;
     }
     header {
-      background-color: #007bff;
-      color: #fff;
+      background-color: red;
+      color: blue;
       padding: 10px;
       font-size: 24px;
       position: absolute;
@@ -19,36 +19,99 @@
       left: 0;
       margin-top: 20px;
     }
-    .text-box {
+    .dropdown {
       margin-top: 100px;
     }
   </style>
   <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
+
   <header>
-    Winter Olympics
+    Itay's CS 416 Olympics Gold Medal Data Viz:<br>
+    USA Vs. The World
   </header>
-  <div class="text-box" id="textBox">
-    <!-- Text box to enter country code -->
-    <input type="text" id="countryCode" placeholder="Enter new country (e.g., FRA)"></input>
-    <button onclick="updateFunc()">Add Country</button>
-    
+  
+  <div class ="dropdown">
+    <!-- Dropdown to select a country QUOTES suck-->
+    <select id="code">
+      <option value="">Select Country</option>
+      <option value="AUS">AUS</option>
+      <option value="AUT">AUT</option>
+      <option value="BEL">BEL</option>
+      <option value="BLR">BLR</option>
+      <option value="BUL">BUL</option>
+      <option value="CAN">CAN</option>
+      <option value="CHN">CHN</option>
+      <option value="CRO">CRO</option>
+      <option value="CZE">CZE</option>
+      <option value="ESP">ESP</option>
+      <option value="EST">EST</option>
+      <option value="EUA">EUA</option>
+      <option value="EUN">EUN</option>
+      <option value="FIN">FIN</option>
+      <option value="FRA">FRA</option>
+      <option value="FRG">FRG</option>
+      <option value="GBR">GBR</option>
+      <option value="GDR">GDR</option>
+      <option value="GER">GER</option>
+      <option value="ITA">ITA</option>
+      <option value="JPN">JPN</option>
+      <option value="KAZ">KAZ</option>
+      <option value="KOR">KOR</option>
+      <option value="NED">NED</option>
+      <option value="NOR">NOR</option>
+      <option value="POL">POL</option>
+      <option value="RUS">RUS</option>
+      <option value="SLO">SLO</option>
+      <option value="SUI">SUI</option>
+      <option value="SVK">SVK</option>
+      <option value="SWE">SWE</option>
+      <option value="TCH">TCH</option>
+      <option value="UKR">UKR</option>
+      <option value="URS">URS</option>
+      <option value="USA">USA</option>
+      <option value="UZB">UZB</option>
+    </select>    
+      <button onclick="updateFunc()">Add Country</button>
+      <button onclick="Winter()">Winter Olympics</button>
+      <button onclick="Summer()">Summer Olympics</button>
+      <button onclick="SummerWinter()">Summer/Winter Olympics</button>
   </div>
- 
+<script>
+  var globalVarCode = "";
+  //var datalist = []
+
+  function Summer() {
+    d3.select("svg").remove()
+
+  }
+</script>
+
+<script>
+  var globalVarCode = "";
+  //var datalist = []
+
+  function SummerWinter() {
+    d3.select("svg").remove()
+
+  }
+</script>
+
 <script>
   //update
   var globalVarCode = "";
-  var datalist = []
+  //var datalist = []
 
   function updateFunc() {
+  // IMPORATN LINE CLEAR AND REDRAW SVG
    d3.select("svg").remove()
-   var textBox = document.getElementById("textBox");
-
-    var countryCodeInput = textBox.querySelector("#countryCode");
-    document.getElementById("textBox").innerHTML = ("Country: ",countryCodeInput.value) 
-    
-    globalVarCode = countryCodeInput.value
+   //alert("here")
+   selectElement = document.querySelector("#code");
+   output = selectElement.value;
+   globalVarCode = output;
+   //globalVarCode = document.getElementById("countryCode").value;
+  
     alert(globalVarCode)
   
     var margin = { top: 50, right: 50, bottom: 50, left: 50 },
@@ -206,9 +269,9 @@ var yAxis = d3.axisLeft(y)
 
 
 
-  <!-- Your D3 line chart and CSV file code can be added here START-->
+  <!-- WINTER:Your D3 line chart and CSV file code can be added here START-->
   <script>
-    
+    function Winter(){
     // Set the dimensions and margins for the chart
     var margin = { top: 50, right: 50, bottom: 50, left: 50 },
         width = 800 - margin.left - margin.right,
@@ -339,9 +402,8 @@ var yAxis = d3.axisLeft(y)
     .text("WHITE=NEW");
 
     
-    });
+    })};
    
     
   </script>
-</body>
 </html>
