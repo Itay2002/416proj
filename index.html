@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Winter Olympics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: lightgreen;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: red;
+      color: blue;
+      padding: 10px;
+      font-size: 24px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin-top: 20px;
+    }
+    .dropdown {
+      margin-top: 100px;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+
+  <header>
+    
+    Itay's CS 416 Olympics Gold Medal Data Viz:<br>
+    USA Vs. The World
+  </header>
+  <div class ="dropdown">
+<button onclick="Winter()">Winter Olympics</button>
+<button onclick="Summer()">Summer Olympics</button>
+<button onclick="SummerWinter()">Summer/Winter Olympics</button>
+<button onclick="Home()">Homescreen</button>
+</div>
+
+<script>
+  function Home() {
+    window.location.href = "index.html";
+  }
+
+  function Winter() {
+    window.location.href = "p1winter.html";
+  }
+
+  function Summer() {
+    window.location.href = "p1summer.html";
+  }
+
+  function SummerWinter() {
+    window.location.href = "p1summerwinter.html";
+  }
+</script>

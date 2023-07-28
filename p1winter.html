@@ -28,11 +28,16 @@
 <body>
 
   <header>
-    Itay's CS 416 Olympics Gold Medal Data Viz:<br>
-    USA Vs. The World
+    
+    WINTER OLYMPICS
   </header>
   
-  <div class ="dropdown">
+<div class ="dropdown">
+<button onclick="Winter()">Winter Olympics</button>
+<button onclick="Summer()">Summer Olympics</button>
+<button onclick="SummerWinter()">Summer/Winter Olympics</button>
+<button onclick="Home()">Homescreen</button>
+<button onclick="updateFuncWinter()">Add Country(Winter)</button>
     <!-- Dropdown to select a country QUOTES suck-->
     <select id="code">
       <option value="">Select Country</option>
@@ -73,20 +78,24 @@
       <option value="USA">USA</option>
       <option value="UZB">UZB</option>
     </select>    
-      <button onclick="updateFunc()">Add Country</button>
-      <button onclick="Winter()">Winter Olympics</button>
-      <button onclick="Summer()">Summer Olympics</button>
-      <button onclick="SummerWinter()">Summer/Winter Olympics</button>
-  </div>
-<script>
-  var globalVarCode = "";
-  //var datalist = []
-
-  function Summer() {
-    d3.select("svg").remove()
-
-  }
-</script>
+    </div>
+    <script>
+      function Home() {
+        window.location.href = "index.html";
+      }
+    
+      function Winter() {
+        window.location.href = "p1winter.html";
+      }
+    
+      function Summer() {
+        window.location.href = "p1summer.html";
+      }
+    
+      function SummerWinter() {
+        window.location.href = "p1summerwinter.html";
+      }
+    </script>
 
 <script>
   var globalVarCode = "";
@@ -103,7 +112,7 @@
   var globalVarCode = "";
   //var datalist = []
 
-  function updateFunc() {
+  function updateFuncWinter() {
   // IMPORATN LINE CLEAR AND REDRAW SVG
    d3.select("svg").remove()
    //alert("here")
@@ -271,7 +280,7 @@ var yAxis = d3.axisLeft(y)
 
   <!-- WINTER:Your D3 line chart and CSV file code can be added here START-->
   <script>
-    function Winter(){
+    
     // Set the dimensions and margins for the chart
     var margin = { top: 50, right: 50, bottom: 50, left: 50 },
         width = 800 - margin.left - margin.right,
@@ -402,7 +411,7 @@ var yAxis = d3.axisLeft(y)
     .text("WHITE=NEW");
 
     
-    })};
+    });
    
     
   </script>
