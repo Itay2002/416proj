@@ -521,7 +521,45 @@ var yAxis = d3.axisLeft(y)
         .x(function(d) { return x(d.Year) })
         .y(function(d) { return y(d.GPCT) })
         )
+        //ANNOTATIONS
+      const combinedData = [
+  { Year: '1924/1924', City: 'Chamonix/Paris', Info: '' },
+  { Year: '1928/1928', City: 'St. Moritz/Amsterdam', Info: '' },
+  { Year: '1932/1932', City: 'Lake Placid/Los Angeles', Info: '' },
+  { Year: '1936/1936', City: 'Garmisch-Partenkirchen/Berlin', Info: '' },
+  { Year: '1940/1940', City: 'None/None', Info: 'WWII No Olympics Held' }, // No Olympics held in 1940
+  { Year: '1944/1944', City: 'None/None', Info: 'WWII No Olympics Held' }, // No Olympics held in 1944
+  { Year: '1948/1948', City: 'St. Moritz/London', Info: '- First Olympics since WWII' },
+  { Year: '1952/1952', City: 'Oslo/Helsinki', Info: '' },
+  { Year: '1956/1956', City: 'Cortina d\'Ampezzo/Melbourne', Info: '' },
+  { Year: '1960/1960', City: 'Squaw Valley/Rome', Info: '' },
+  { Year: '1964/1964', City: 'Innsbruck/Tokyo', Info: '' },
+  { Year: '1968/1968', City: 'Grenoble/Mexico City', Info: '' },
+  { Year: '1972/1972', City: 'Sapporo/Munich', Info: '' },
+  { Year: '1976/1976', City: 'Innsbruck/Montreal', Info: '' },
+  { Year: '1980/1980', City: 'Lake Placid/Moscow', Info: '' },
+  { Year: '1984/1984', City: 'Sarajevo/Los Angeles', Info: '' },
+  { Year: '1988/1988', City: 'Calgary/Seoul', Info: '' },
+  { Year: '1992/1992', City: 'Albertville/Barcelona', Info: '' },
+  { Year: '1994/1996', City: 'Lillehammer/Atlanta', Info: '- 2Year Split' },
+  { Year: '1998/2000', City: 'Nagano/Sydney', Info: '' },
+  { Year: '2002/2004', City: 'Salt Lake City/Athens', Info: '' },
+  { Year: '2006/2008', City: 'Turin/Beijing', Info: '' },
+  { Year: '2010/2012', City: 'Vancouver/London', Info: '' },
+  { Year: '2014/2016', City: 'Sochi/Rio', Info: '' }
+];
+svg.selectAll(".city-label")
+      .data(combinedData)
+      .enter()
+      .append("text")
+      .attr("class", "city-label") // Assign the class name 'city-label' to the text elements
+      .attr("x", (d, i)=> 20+25*i) // Slightly offset the x-coordinate to avoid overlapping with the path
+      .attr("y", (d, i) => 380 - (i * 17)) // Slightly offset the y-coordinate to avoid overlapping with the path
+      .text(d => `${d.Year}: ${d.City}${d.Info}`)
+      .attr("fill", "black")
+      .attr("font-size", "12px");
       })
+      
       };
   </script>
 
@@ -853,9 +891,47 @@ var yAxis = d3.axisLeft(y)
     .attr("fill", "white")
     .attr("text-anchor", "end")
     .text("WHITE=NEW");
-
+      //ANNOTATIONS
+      const combinedData = [
+  { Year: '1924/1924', City: 'Chamonix/Paris', Info: '' },
+  { Year: '1928/1928', City: 'St. Moritz/Amsterdam', Info: '' },
+  { Year: '1932/1932', City: 'Lake Placid/Los Angeles', Info: '' },
+  { Year: '1936/1936', City: 'Garmisch-Partenkirchen/Berlin', Info: '' },
+  { Year: '1940/1940', City: 'None/None', Info: 'WWII No Olympics Held' }, // No Olympics held in 1940
+  { Year: '1944/1944', City: 'None/None', Info: 'WWII No Olympics Held' }, // No Olympics held in 1944
+  { Year: '1948/1948', City: 'St. Moritz/London', Info: '- First Olympics since WWII' },
+  { Year: '1952/1952', City: 'Oslo/Helsinki', Info: '' },
+  { Year: '1956/1956', City: 'Cortina d\'Ampezzo/Melbourne', Info: '' },
+  { Year: '1960/1960', City: 'Squaw Valley/Rome', Info: '' },
+  { Year: '1964/1964', City: 'Innsbruck/Tokyo', Info: '' },
+  { Year: '1968/1968', City: 'Grenoble/Mexico City', Info: '' },
+  { Year: '1972/1972', City: 'Sapporo/Munich', Info: '' },
+  { Year: '1976/1976', City: 'Innsbruck/Montreal', Info: '' },
+  { Year: '1980/1980', City: 'Lake Placid/Moscow', Info: '' },
+  { Year: '1984/1984', City: 'Sarajevo/Los Angeles', Info: '' },
+  { Year: '1988/1988', City: 'Calgary/Seoul', Info: '' },
+  { Year: '1992/1992', City: 'Albertville/Barcelona', Info: '' },
+  { Year: '1994/1996', City: 'Lillehammer/Atlanta', Info: '- 2Year Split' },
+  { Year: '1998/2000', City: 'Nagano/Sydney', Info: '' },
+  { Year: '2002/2004', City: 'Salt Lake City/Athens', Info: '' },
+  { Year: '2006/2008', City: 'Turin/Beijing', Info: '' },
+  { Year: '2010/2012', City: 'Vancouver/London', Info: '' },
+  { Year: '2014/2016', City: 'Sochi/Rio', Info: '' }
+];
+svg.selectAll(".city-label")
+      .data(combinedData)
+      .enter()
+      .append("text")
+      .attr("class", "city-label") // Assign the class name 'city-label' to the text elements
+      .attr("x", (d, i)=> 20+25*i) // Slightly offset the x-coordinate to avoid overlapping with the path
+      .attr("y", (d, i) => 380 - (i * 17)) // Slightly offset the y-coordinate to avoid overlapping with the path
+      .text(d => `${d.Year}: ${d.City}${d.Info}`)
+      .attr("fill", "black")
+      .attr("font-size", "12px");
     
     });
+
+   
    
     
   </script>
