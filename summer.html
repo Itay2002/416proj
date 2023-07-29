@@ -132,14 +132,14 @@
       d3.csv("summer_g.csv").then(function (data) {
         // Filter data for 'Country=USA'
         var dataFilteredUSA = data.filter(function (d) {
-          return d.Country === 'USA'&& d.Year >= 1924;
+          return d.Country === 'USA'&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
         });
         //manipulate later accordingly use 100-usa temp placeholder rn
         var dataFilteredOther = data.filter(function (d) {
-          return d.Country === 'USA'&& d.Year >= 1924;
+          return d.Country === 'USA'&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
         });
         var dataFilteredNew = data.filter(function (d) {
-          return d.Country === globalVarCode&& d.Year >= 1924;
+          return d.Country === globalVarCode&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
         });
         //updatechart
         
@@ -293,11 +293,11 @@
       d3.csv("summer_g.csv").then(function (data) {
         // Filter data for 'Country=USA'
         var dataFilteredUSA = data.filter(function (d) {
-          return d.Country === 'USA';
+          return d.Country === 'USA'&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
         });
         //manipulate later accordingly use 100-usa temp placeholder rn
         var dataFilteredOther = data.filter(function (d) {
-          return d.Country === 'USA';
+          return d.Country === 'USA'&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
         });
         //updatechart
         

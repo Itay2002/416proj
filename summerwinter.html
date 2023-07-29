@@ -29,7 +29,8 @@
 
   <header>
     
-   WINTER AND SUMMER OLYMPICS
+   WINTER AND SUMMER OLYMPICS<br>
+   DOTTED = WINTER, SOLID = SUMMER
   </header>
   <div class ="dropdown">
 <button onclick="Winter()">Winter Olympics</button>
@@ -141,14 +142,14 @@ function SummerWinter() {
     d3.csv("summer_g.csv").then(function (data) {
       // Filter data for 'Country=USA'
       var dataFilteredUSA = data.filter(function (d) {
-        return d.Country === 'USA'&& d.Year >= 1924;
+        return d.Country === 'USA'&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
       });
       //manipulate later accordingly use 100-usa temp placeholder rn
       var dataFilteredOther = data.filter(function (d) {
-        return d.Country === 'USA'&& d.Year >= 1924;
+        return d.Country === 'USA'&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
       });
       var dataFilteredNew = data.filter(function (d) {
-        return d.Country === globalVarCode&& d.Year >= 1924;
+        return d.Country === globalVarCode&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
       });
       //updatechart
       
@@ -276,6 +277,146 @@ var yAxis = d3.axisLeft(y)
         .y(function(d) { return y(d.GPCT) })
         )
       })
+
+      //WINTER ADD COUNTRY BELOW
+      d3.csv("winter_g.csv").then(function (data) {
+      // Filter data for 'Country=USA'
+      var dataFilteredUSA = data.filter(function (d) {
+        return d.Country === 'USA';
+      });
+      //manipulate later accordingly use 100-usa temp placeholder rn
+      var dataFilteredOther = data.filter(function (d) {
+        return d.Country === 'USA';
+      });
+      var dataFilteredNew = data.filter(function (d) {
+        return d.Country === globalVarCode;
+      });
+      //updatechart
+      
+
+  
+      // Convert data to numeric values
+      dataFilteredUSA.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = +d.GPCT;
+      });
+      
+
+      // Set the scales for x and y axes
+var x = d3.scaleLinear()
+  .domain([1924, 2014]) // Set the x-axis domain from 1896 to 2014
+  .range([0, width])
+  .nice(); // To ensure ticks are positioned nicely
+
+var y = d3.scaleLinear()
+  .domain([0, 100]) // Set the y-axis domain from 0 to 100
+  .range([height, 0])
+  .nice(); // To ensure ticks are positioned nicely
+
+// Create the x-axis with custom ticks
+var xAxis = d3.axisBottom(x)
+  .tickValues(d3.range(1924, 2015, 4)) // Start at 1896, end at 2014 (inclusive), increment every 4 years
+  .tickFormat(d3.format("d")); // Format tick values as integers
+
+// Create the y-axis with custom ticks
+var yAxis = d3.axisLeft(y)
+  .tickValues(d3.range(0, 101, 10)); // Start at 0, end at 100 (inclusive), increment every 10
+  
+      // Create the line generator
+      var line = d3.line()
+        .x(d => x(d.Year))
+        .y(d => y(d.GPCT));
+
+      // Append the path for the USA line:THIS WORKED
+      svg.append("path")
+      .datum(dataFilteredUSA)
+      .attr("fill","none")
+      .attr("stroke", "red")
+      .attr("stroke-width", 1.5).attr("stroke-dasharray", "3,3")
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
+       
+      
+      // Add x-axis
+      svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+  
+      // Add y-axis
+      svg.append("g")
+        .call(d3.axisLeft(y));
+  
+      // Add labels
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 10) // Adjusted to make it visible within the SVG area
+        .attr("text-anchor", "middle")
+        .text("Year");
+  
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", 0 - height / 2)
+        .attr("y", 0 - margin.left + 10) // Adjusted to make it visible within the SVG area
+        .attr("text-anchor", "middle")
+        .text("Gold %");
+//usa txt
+      svg.append("text")
+    .attr("x", width -200)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "red")
+    .attr("text-anchor", "end")
+    .text("RED=USA");
+
+    svg.append("text")
+    .attr("x", width -70)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "blue")
+    .attr("text-anchor", "end")
+    .text("BLUE=OTHER");
+
+    svg.append("text")
+    .attr("x", width +50)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "white")
+    .attr("text-anchor", "end")
+    .text("WHITE=")
+  .append("tspan")
+  .text(globalVarCode);
+
+    
+    
+    dataFilteredNew.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = +d.GPCT;
+      });
+      
+    svg.append("path")
+      .datum(dataFilteredNew)
+      .attr("fill","none")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1.5).attr("stroke-dasharray", "3,3")
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
+        //100-USA-NEEDS TO BE LAST LOGIC WISE FOR DATA ACCURACY
+        dataFilteredOther.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = 100-d.GPCT;
+      });
+        // Append the path for the Other line
+      svg.append("path")
+      .datum(dataFilteredOther)
+      .attr("fill","none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 4).attr("stroke-dasharray", "3,3")
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
+      })
       };
   </script>
 
@@ -302,11 +443,11 @@ var yAxis = d3.axisLeft(y)
     d3.csv("summer_g.csv").then(function (data) {
       // Filter data for 'Country=USA'
       var dataFilteredUSA = data.filter(function (d) {
-        return d.Country === 'USA';
+        return d.Country === 'USA'&&Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!;
       });
       //manipulate later accordingly use 100-usa temp placeholder rn
       var dataFilteredOther = data.filter(function (d) {
-        return d.Country === 'USA';
+        return d.Country === 'USA'&&Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!;
       });
       //updatechart
       
@@ -365,6 +506,123 @@ var yAxis = d3.axisLeft(y)
       .attr("fill","none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 4)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
+      
+      // Add x-axis
+      svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+  
+      // Add y-axis
+      svg.append("g")
+        .call(d3.axisLeft(y));
+  
+      // Add labels
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 10) // Adjusted to make it visible within the SVG area
+        .attr("text-anchor", "middle")
+        .text("Year");
+  
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", 0 - height / 2)
+        .attr("y", 0 - margin.left + 10) // Adjusted to make it visible within the SVG area
+        .attr("text-anchor", "middle")
+        .text("Gold Medal Win %");
+//usa txt
+      svg.append("text")
+    .attr("x", width -200)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "red")
+    .attr("text-anchor", "end")
+    .text("RED=USA");
+
+    svg.append("text")
+    .attr("x", width -70)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "blue")
+    .attr("text-anchor", "end")
+    .text("BLUE=NONUSA");
+
+    svg.append("text")
+    .attr("x", width +50)
+    .attr("y", height+50) // Position it at the last data point of the USA line
+    .attr("fill", "white")
+    .attr("text-anchor", "end")
+    .text("WHITE=NEW");
+
+    
+    });
+    d3.csv("winter_g.csv").then(function (data) {
+      // Filter data for 'Country=USA'
+      var dataFilteredUSA = data.filter(function (d) {
+        return d.Country === 'USA';
+      });
+      //manipulate later accordingly use 100-usa temp placeholder rn
+      var dataFilteredOther = data.filter(function (d) {
+        return d.Country === 'USA';
+      });
+      //updatechart
+      
+
+  
+      // Convert data to numeric values
+      dataFilteredUSA.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = +d.GPCT;
+      });
+      
+
+      // Set the scales for x and y axes
+var x = d3.scaleLinear()
+  .domain([1924, 2014]) // Set the x-axis domain from 1896 to 2014
+  .range([0, width])
+  .nice(); // To ensure ticks are positioned nicely
+
+var y = d3.scaleLinear()
+  .domain([0, 100]) // Set the y-axis domain from 0 to 100
+  .range([height, 0])
+  .nice(); // To ensure ticks are positioned nicely
+
+// Create the x-axis with custom ticks
+var xAxis = d3.axisBottom(x)
+  .tickValues(d3.range(1924, 2015, 4)) // Start at 1896, end at 2014 (inclusive), increment every 4 years
+  .tickFormat(d3.format("d")); // Format tick values as integers
+
+// Create the y-axis with custom ticks
+var yAxis = d3.axisLeft(y)
+  .tickValues(d3.range(0, 101, 10)); // Start at 0, end at 100 (inclusive), increment every 10
+  
+      // Create the line generator
+      var line = d3.line()
+        .x(d => x(d.Year))
+        .y(d => y(d.GPCT));
+
+      // Append the path for the USA line:THIS WORKED-DOTTED WINTER
+      svg.append("path")
+      .datum(dataFilteredUSA)
+      .attr("fill","none")
+      .attr("stroke", "red")
+      .attr("stroke-width", 1.5).attr("stroke-dasharray", "3,3")
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.GPCT) })
+        )
+        //100-USA-NEEDS TO BE LAST LOGIC WISE FOR DATA ACCURACY
+      dataFilteredOther.forEach(function (d) {
+        d.Year = +d.Year;
+        d.GPCT = 100-d.GPCT;
+      });
+        // Append the path for the Other line
+      svg.append("path")
+      .datum(dataFilteredOther)
+      .attr("fill","none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 4).attr("stroke-dasharray", "3,3")
       .attr("d", d3.line()
         .x(function(d) { return x(d.Year) })
         .y(function(d) { return y(d.GPCT) })
