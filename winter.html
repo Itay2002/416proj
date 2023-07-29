@@ -265,7 +265,48 @@ var yAxis = d3.axisLeft(y)
         .x(function(d) { return x(d.Year) })
         .y(function(d) { return y(d.GPCT) })
         )
-      })
+        const datacity = [
+  { Year: 1924, City: 'Chamonix', TotalGold: 38, Info: '- First ever Winter Olympics' },
+  { Year: 1928, City: 'St. Moritz', TotalGold: 30, Info: '' },
+  { Year: 1932, City: 'Lake Placid', TotalGold: 33, Info: '' },
+  { Year: 1936, City: 'Garmisch-Partenkirchen', TotalGold: 36, Info: '' },
+  { Year: 1940, City: 'None', TotalGold: 0, Info: '- WWII No Olympics Held' }, // No Winter Olympics held in 1940
+  { Year: 1944, City: 'None', TotalGold: 0, Info: '- WWII No Olympics Held' }, // No Winter Olympics held in 1944
+  { Year: 1948, City: 'St. Moritz', TotalGold: 46, Info: '- First Winter Olympics since WWII' },
+  { Year: 1952, City: 'Oslo', TotalGold: 45, Info: '' },
+  { Year: 1956, City: 'Cortina d\'Ampezzo', TotalGold: 51, Info: '' },
+  { Year: 1960, City: 'Squaw Valley', TotalGold: 50, Info: '' },
+  { Year: 1964, City: 'Innsbruck', TotalGold: 60, Info: '' },
+  { Year: 1968, City: 'Grenoble', TotalGold: 66, Info: '' },
+  { Year: 1972, City: 'Sapporo', TotalGold: 70, Info: '' },
+  { Year: 1976, City: 'Innsbruck', TotalGold: 70, Info: '' },
+  { Year: 1980, City: 'Lake Placid', TotalGold: 72, Info: '' },
+  { Year: 1984, City: 'Sarajevo', TotalGold: 74, Info: '' },
+  { Year: 1988, City: 'Calgary', TotalGold: 88, Info: '' },
+  { Year: 1992, City: 'Albertville', TotalGold: 108, Info: '' },
+  { Year: 1994, City: 'Lillehammer', TotalGold: 114, Info:'- Summer/Winter divide' },
+  { Year: 1998, City: 'Nagano', TotalGold: 149, Info: '' },
+  { Year: 2002, City: 'Salt Lake City', TotalGold: 163, Info: '' },
+  { Year: 2006, City: 'Turin', TotalGold: 176, Info: '' },
+  { Year: 2010, City: 'Vancouver', TotalGold: 176, Info: '' },
+  { Year: 2014, City: 'Sochi', TotalGold: 206, Info: '' }
+];
+
+      //append datacity txt
+    svg.selectAll(".city-label")
+      .data(datacity)
+      .enter()
+      .append("text")
+      .attr("class", "city-label") // Assign the class name 'city-label' to the text elements
+      .attr("x", d => x(d.Year)) // Slightly offset the x-coordinate to avoid overlapping with the path
+      .attr("y", (d, i) => 380 - (i * 17)) // Slightly offset the y-coordinate to avoid overlapping with the path
+      .text(d => `${d.Year}: ${d.City}${d.Info}`)
+      .attr("fill", "black")
+      .attr("font-size", "12px");
+
+    });
+   
+
       };
   </script>
 
@@ -405,6 +446,46 @@ var yAxis = d3.axisLeft(y)
     .text("WHITE=NEW");
 
     
+    
+    const datacity = [
+  { Year: 1924, City: 'Chamonix', TotalGold: 38, Info: '- First ever Winter Olympics' },
+  { Year: 1928, City: 'St. Moritz', TotalGold: 30, Info: '' },
+  { Year: 1932, City: 'Lake Placid', TotalGold: 33, Info: '' },
+  { Year: 1936, City: 'Garmisch-Partenkirchen', TotalGold: 36, Info: '' },
+  { Year: 1940, City: 'None', TotalGold: 0, Info: '- WWII No Olympics Held' }, // No Winter Olympics held in 1940
+  { Year: 1944, City: 'None', TotalGold: 0, Info: '- WWII No Olympics Held' }, // No Winter Olympics held in 1944
+  { Year: 1948, City: 'St. Moritz', TotalGold: 46, Info: '- First Winter Olympics since WWII' },
+  { Year: 1952, City: 'Oslo', TotalGold: 45, Info: '' },
+  { Year: 1956, City: 'Cortina d\'Ampezzo', TotalGold: 51, Info: '' },
+  { Year: 1960, City: 'Squaw Valley', TotalGold: 50, Info: '' },
+  { Year: 1964, City: 'Innsbruck', TotalGold: 60, Info: '' },
+  { Year: 1968, City: 'Grenoble', TotalGold: 66, Info: '' },
+  { Year: 1972, City: 'Sapporo', TotalGold: 70, Info: '' },
+  { Year: 1976, City: 'Innsbruck', TotalGold: 70, Info: '' },
+  { Year: 1980, City: 'Lake Placid', TotalGold: 72, Info: '' },
+  { Year: 1984, City: 'Sarajevo', TotalGold: 74, Info: '' },
+  { Year: 1988, City: 'Calgary', TotalGold: 88, Info: '' },
+  { Year: 1992, City: 'Albertville', TotalGold: 108, Info: '' },
+  { Year: 1994, City: 'Lillehammer', TotalGold: 114, Info:'- Summer/Winter divide' },
+  { Year: 1998, City: 'Nagano', TotalGold: 149, Info: '' },
+  { Year: 2002, City: 'Salt Lake City', TotalGold: 163, Info: '' },
+  { Year: 2006, City: 'Turin', TotalGold: 176, Info: '' },
+  { Year: 2010, City: 'Vancouver', TotalGold: 176, Info: '' },
+  { Year: 2014, City: 'Sochi', TotalGold: 206, Info: '' }
+];
+
+      //append datacity txt
+    svg.selectAll(".city-label")
+      .data(datacity)
+      .enter()
+      .append("text")
+      .attr("class", "city-label") // Assign the class name 'city-label' to the text elements
+      .attr("x", d => x(d.Year)) // Slightly offset the x-coordinate to avoid overlapping with the path
+      .attr("y", (d, i) => 380 - (i * 17)) // Slightly offset the y-coordinate to avoid overlapping with the path
+      .text(d => `${d.Year}: ${d.City}${d.Info}`)
+      .attr("fill", "black")
+      .attr("font-size", "12px");
+
     });
    
     

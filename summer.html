@@ -266,6 +266,44 @@
           .x(function(d) { return x(d.Year) })
           .y(function(d) { return y(d.GPCT) })
           )
+          const datacitySummer = [
+  { Year: 1924, City: 'Paris', TotalGold: 301, Info: '' },
+  { Year: 1928, City: 'Amsterdam', TotalGold: 497, Info: '' },
+  { Year: 1932, City: 'Los Angeles', TotalGold: 301, Info: '- Second time ever USA was the Host nation' },
+  { Year: 1936, City: 'Berlin', TotalGold: 229, Info: '' },
+  { Year: 1940, City: 'None', TotalGold: 0, Info: '- WWII No Olympics Held' }, // No Summer Olympics held in 1940
+  { Year: 1944, City: 'None', TotalGold: 0, Info: '- WWII No Olympics Held' }, // No Summer Olympics held in 1944
+  { Year: 1948, City: 'London', TotalGold: 213, Info: '' },
+  { Year: 1952, City: 'Helsinki', TotalGold: 299, Info: '' },
+  { Year: 1956, City: 'Melbourne', TotalGold: 276, Info: '' },
+  { Year: 1960, City: 'Rome', TotalGold: 300, Info: '' },
+  { Year: 1964, City: 'Tokyo', TotalGold: 298, Info: '' },
+  { Year: 1968, City: 'Mexico City', TotalGold: 295, Info: '' },
+  { Year: 1972, City: 'Munich', TotalGold: 330, Info: "" },
+  { Year: 1976, City: 'Montreal', TotalGold: 341, Info: '' },
+  { Year: 1980, City: 'Moscow', TotalGold: 387, Info: "- USA Boycott: 65 nations didn't partake" },
+  { Year: 1984, City: 'Los Angeles', TotalGold: 429, Info: "- Soviet Boycott: Response to USA" },
+  { Year: 1988, City: 'Seoul', TotalGold: 460, Info: '' },
+  { Year: 1992, City: 'Barcelona', TotalGold: 483, Info: "- 'USA Dream Team'" },
+  { Year: 1996, City: 'Atlanta', TotalGold: 506, Info: '- Centennial Park Bombing' },
+  { Year: 2000, City: 'Sydney', TotalGold: 558, Info: '' },
+  { Year: 2004, City: 'Athens', TotalGold: 615, Info: '' },
+  { Year: 2008, City: 'Beijing', TotalGold: 663, Info: '' },
+  { Year: 2012, City: 'London', TotalGold: 659, Info: '' }
+];
+      svg.selectAll(".city-label")
+      .data(datacitySummer)
+      .enter()
+      .append("text")
+      .attr("class", "city-label") // Assign the class name 'city-label' to the text elements
+      .attr("x", d => x(d.Year)) // Slightly offset the x-coordinate to avoid overlapping with the path
+      .attr("y", (d, i) => 380 - (i * 17)) // Slightly offset the y-coordinate to avoid overlapping with the path
+      .text(d => `${d.Year}: ${d.City}${d.Info}`)
+      .attr("fill", "black")
+      .attr("font-size", "12px");
+
+    
+    
         })
         };
     </script>
@@ -404,10 +442,47 @@
       .attr("fill", "white")
       .attr("text-anchor", "end")
       .text("WHITE=NEW");
-  
-      
+        //append annotations:
+        const datacitySummer = [
+  { Year: 1924, City: 'Paris', TotalGold: 301, Info: '' },
+  { Year: 1928, City: 'Amsterdam', TotalGold: 497, Info: '' },
+  { Year: 1932, City: 'Los Angeles', TotalGold: 301, Info: '- Second time ever USA was the Host nation' },
+  { Year: 1936, City: 'Berlin', TotalGold: 229, Info: '' },
+  { Year: 1940, City: 'None', TotalGold: 0, Info: '- WWII No Olympics Held' }, // No Summer Olympics held in 1940
+  { Year: 1944, City: 'None', TotalGold: 0, Info: '- WWII No Olympics Held' }, // No Summer Olympics held in 1944
+  { Year: 1948, City: 'London', TotalGold: 213, Info: '' },
+  { Year: 1952, City: 'Helsinki', TotalGold: 299, Info: '' },
+  { Year: 1956, City: 'Melbourne', TotalGold: 276, Info: '' },
+  { Year: 1960, City: 'Rome', TotalGold: 300, Info: '' },
+  { Year: 1964, City: 'Tokyo', TotalGold: 298, Info: '' },
+  { Year: 1968, City: 'Mexico City', TotalGold: 295, Info: '' },
+  { Year: 1972, City: 'Munich', TotalGold: 330, Info: "" },
+  { Year: 1976, City: 'Montreal', TotalGold: 341, Info: '' },
+  { Year: 1980, City: 'Moscow', TotalGold: 387, Info: "- USA Boycott: 65 nations didn't partake" },
+  { Year: 1984, City: 'Los Angeles', TotalGold: 429, Info: "- Soviet Boycott: Response to USA" },
+  { Year: 1988, City: 'Seoul', TotalGold: 460, Info: '' },
+  { Year: 1992, City: 'Barcelona', TotalGold: 483, Info: "- 'USA Dream Team'" },
+  { Year: 1996, City: 'Atlanta', TotalGold: 506, Info: '- Centennial Park Bombing' },
+  { Year: 2000, City: 'Sydney', TotalGold: 558, Info: '' },
+  { Year: 2004, City: 'Athens', TotalGold: 615, Info: '' },
+  { Year: 2008, City: 'Beijing', TotalGold: 663, Info: '' },
+  { Year: 2012, City: 'London', TotalGold: 659, Info: '' }
+];
+      svg.selectAll(".city-label")
+      .data(datacitySummer)
+      .enter()
+      .append("text")
+      .attr("class", "city-label") // Assign the class name 'city-label' to the text elements
+      .attr("x", d => x(d.Year)) // Slightly offset the x-coordinate to avoid overlapping with the path
+      .attr("y", (d, i) => 380 - (i * 17)) // Slightly offset the y-coordinate to avoid overlapping with the path
+      .text(d => `${d.Year}: ${d.City}${d.Info}`)
+      .attr("fill", "black")
+      .attr("font-size", "12px");
+
+    
       });
      
-      
+     
+ 
     </script>
   </html>
