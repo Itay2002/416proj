@@ -152,7 +152,17 @@ function SummerWinter() {
         return d.Country === globalVarCode&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
       });
       //updatechart
-      
+      let insertIndex = dataFilteredUSA.findIndex(d => d.Year > 1980)
+        dataFilteredUSA.splice(insertIndex, 0, {
+    Year: 1980,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredOther.splice(insertIndex, 0, {
+    Year: 1980,
+    GPCT: 0,
+    // Add other properties if needed
+  });
 
   
       // Convert data to numeric values
@@ -450,7 +460,17 @@ var yAxis = d3.axisLeft(y)
         return d.Country === 'USA'&&Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!;
       });
       //updatechart
-      
+      let insertIndex = dataFilteredUSA.findIndex(d => d.Year > 1980)
+        dataFilteredUSA.splice(insertIndex, 0, {
+    Year: 1980,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredOther.splice(insertIndex, 0, {
+    Year: 1980,
+    GPCT: 0,
+    // Add other properties if needed
+  });
 
   
       // Convert data to numeric values

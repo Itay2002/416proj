@@ -141,15 +141,25 @@
         var dataFilteredNew = data.filter(function (d) {
           return d.Country === globalVarCode&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
         });
-        //updatechart
         
-  
-    
+        //add usa 1980 = 0 in the correct spot for summer olympics
+        let insertIndex = dataFilteredUSA.findIndex(d => d.Year > 1980)
+        dataFilteredUSA.splice(insertIndex, 0, {
+    Year: 1980,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredOther.splice(insertIndex, 0, {
+    Year: 1980,
+    GPCT: 0,
+    // Add other properties if needed
+  });
         // Convert data to numeric values
         dataFilteredUSA.forEach(function (d) {
           d.Year = +d.Year;
           d.GPCT = +d.GPCT;
         });
+
         
   
         // Set the scales for x and y axes
@@ -340,7 +350,17 @@
         //updatechart
         
   
-    
+        let insertIndex = dataFilteredUSA.findIndex(d => d.Year > 1980)
+        dataFilteredUSA.splice(insertIndex, 0, {
+    Year: 1980,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredOther.splice(insertIndex, 0, {
+    Year: 1980,
+    GPCT: 0,
+    // Add other properties if needed
+  });
         // Convert data to numeric values
         dataFilteredUSA.forEach(function (d) {
           d.Year = +d.Year;
