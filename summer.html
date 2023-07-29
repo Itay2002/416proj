@@ -141,7 +141,7 @@
         var dataFilteredNew = data.filter(function (d) {
           return d.Country === globalVarCode&& Number(d.Year) >= 1924;//convert year to Number DATA TYPE!!!
         });
-        
+        //SUMMER PATCH
         //add usa 1980 = 0 in the correct spot for summer olympics
         let insertIndex = dataFilteredUSA.findIndex(d => d.Year > 1980)
         dataFilteredUSA.splice(insertIndex, 0, {
@@ -154,6 +154,53 @@
     GPCT: 0,
     // Add other properties if needed
   });
+  //WWII PATCH-START
+  let insertIndex1940 = dataFilteredUSA.findIndex(d => d.Year > 1940)
+      let insertIndex1944 = dataFilteredUSA.findIndex(d => d.Year > 1944)
+      dataFilteredUSA.splice(insertIndex1940, 0, {
+    Year: 1940,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredUSA.splice(insertIndex1944, 0, {
+    Year: 1944,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredUSA.sort((a, b) => a.Year - b.Year);
+  //OTHER 
+  //WWII PATCH
+  insertIndex1940 = dataFilteredOther.findIndex(d => d.Year > 1940)
+      insertIndex1944 = dataFilteredOther.findIndex(d => d.Year > 1944)
+      dataFilteredOther.splice(insertIndex1940, 0, {
+    Year: 1940,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredOther.splice(insertIndex1944, 0, {
+    Year: 1944,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredOther.sort((a, b) => a.Year - b.Year);
+  //NEW
+  //WWII PATCH
+  insertIndex1940 = dataFilteredNew.findIndex(d => d.Year > 1940)
+      insertIndex1944 = dataFilteredNew.findIndex(d => d.Year > 1944)
+      dataFilteredNew.splice(insertIndex1940, 0, {
+    Year: 1940,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredNew.splice(insertIndex1944, 0, {
+    Year: 1944,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredNew.sort((a, b) => a.Year - b.Year);
+  
+  //WWII PATCH DONE-SUMMER
+
         // Convert data to numeric values
         dataFilteredUSA.forEach(function (d) {
           d.Year = +d.Year;
@@ -263,9 +310,10 @@
           )
           //100-USA-NEEDS TO BE LAST LOGIC WISE FOR DATA ACCURACY
           dataFilteredOther.forEach(function (d) {
-          d.Year = +d.Year;
-          d.GPCT = 100-d.GPCT;
-        });
+        if (Number(d.Year)!= 1940 && Number(d.Year)!= 1944){
+        d.Year = +d.Year;
+        d.GPCT = 100-d.GPCT;}
+      });
           // Append the path for the Other line
         svg.append("path")
         .datum(dataFilteredOther)
@@ -349,7 +397,7 @@
         });
         //updatechart
         
-  
+        //summer patch
         let insertIndex = dataFilteredUSA.findIndex(d => d.Year > 1980)
         dataFilteredUSA.splice(insertIndex, 0, {
     Year: 1980,
@@ -361,6 +409,38 @@
     GPCT: 0,
     // Add other properties if needed
   });
+  //WWII PATCH-START
+  let insertIndex1940 = dataFilteredUSA.findIndex(d => d.Year > 1940)
+      let insertIndex1944 = dataFilteredUSA.findIndex(d => d.Year > 1944)
+      dataFilteredUSA.splice(insertIndex1940, 0, {
+    Year: 1940,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredUSA.splice(insertIndex1944, 0, {
+    Year: 1944,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredUSA.sort((a, b) => a.Year - b.Year);
+  //OTHER 
+  //WWII PATCH
+  insertIndex1940 = dataFilteredOther.findIndex(d => d.Year > 1940)
+      insertIndex1944 = dataFilteredOther.findIndex(d => d.Year > 1944)
+      dataFilteredOther.splice(insertIndex1940, 0, {
+    Year: 1940,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredOther.splice(insertIndex1944, 0, {
+    Year: 1944,
+    GPCT: 0,
+    // Add other properties if needed
+  });
+  dataFilteredOther.sort((a, b) => a.Year - b.Year);
+  
+  //WWII PATCH DONE-SUMMER
+
         // Convert data to numeric values
         dataFilteredUSA.forEach(function (d) {
           d.Year = +d.Year;
@@ -404,10 +484,11 @@
           .y(function(d) { return y(d.GPCT) })
           )
           //100-USA-NEEDS TO BE LAST LOGIC WISE FOR DATA ACCURACY
-        dataFilteredOther.forEach(function (d) {
-          d.Year = +d.Year;
-          d.GPCT = 100-d.GPCT;
-        });
+          dataFilteredOther.forEach(function (d) {
+        if (Number(d.Year)!= 1940 && Number(d.Year)!= 1944){
+        d.Year = +d.Year;
+        d.GPCT = 100-d.GPCT;}
+      });
           // Append the path for the Other line
         svg.append("path")
         .datum(dataFilteredOther)
